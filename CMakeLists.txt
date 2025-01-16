@@ -30,6 +30,7 @@ set ( SOURCE
         src/vec3.h
         src/color.h
         src/ray.h
+        src/obj3.h
 )
 
 # Specific compiler flags below. We're not going to add options for all possible compilers, but if

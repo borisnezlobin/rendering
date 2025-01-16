@@ -9,6 +9,18 @@
 
 using color = vec3;
 
+static color white() {
+    return { 1, 1, 1 };
+}
+
+static color red() {
+    return { 1, 0, 0 };
+}
+
+static color light_blue() {
+    return { 0.5, 0.7, 1.0 };
+}
+
 void write_color(std::ostream& out, const color& pixel_color) {
     auto r = pixel_color.x();
     auto g = pixel_color.y();
