@@ -4,7 +4,26 @@
 
 #ifndef OBJ3_H
 #define OBJ3_H
+#include "ray.h"
+#include "vec3.h"
 
+class hit_record {
+public:
+    point3 point;
+    vec3 normal;
+    double t;
+    bool front_face;
 
+    set_face_normal(ray r, vec3 outward_normal) {
+        front_face = dot(r.direction(), outward_normal) < 0;
+        normal = front_face ? outward_normal : -outward_normal;
+    }
+};
+
+class obj3 {
+public:
+    virtual ~obj3() = default;
+    virtual bool hit(ray& r, double tmin, double tmax, hit_record& rec) const = 0;
+};
 
 #endif //OBJ3_H

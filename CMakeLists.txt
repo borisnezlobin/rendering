@@ -31,6 +31,9 @@ set ( SOURCE
         src/color.h
         src/ray.h
         src/obj3.h
+        src/sphere.h
+        src/scene.h
+        src/util.h
 )
 
 # Specific compiler flags below. We're not going to add options for all possible compilers, but if

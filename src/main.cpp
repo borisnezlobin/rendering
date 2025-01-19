@@ -17,9 +17,9 @@ double hit_sphere(point3 center, double radius, ray ray) {
     const double disc = h * h - 4 * a * c;
     if (disc < 0) {
         return -1.0;
-    } else {
-        return (-b - std::sqrt(disc)) / (2 * a);
     }
+
+    return (-2 * h - std::sqrt(disc)) / (2 * a);
 }
 
 color ray_color(const ray& r) {
