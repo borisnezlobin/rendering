@@ -4,17 +4,17 @@
 
 #ifndef OBJ3_H
 #define OBJ3_H
-#include "ray.h"
-#include "vec3.h"
+
+#include "util.h"
 
 class hit_record {
 public:
     point3 point;
     vec3 normal;
-    double t;
-    bool front_face;
+    double t{};
+    bool front_face{};
 
-    set_face_normal(ray r, vec3 outward_normal) {
+    void set_face_normal(ray r, vec3 outward_normal) {
         front_face = dot(r.direction(), outward_normal) < 0;
         normal = front_face ? outward_normal : -outward_normal;
     }

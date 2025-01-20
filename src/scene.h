@@ -4,10 +4,9 @@
 
 #ifndef SCENE_H
 #define SCENE_H
-#include "obj3.h"
 
-using std::make_shared;
-using std::shared_ptr;
+#include "obj3.h"
+#include "util.h"
 
 class scene : public obj3 {
 public:

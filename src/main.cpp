@@ -6,8 +6,10 @@
 
 #include <iostream>
 
-#include "color.h"
-#include "ray.h"
+#include "obj3.h"
+#include "scene.h"
+#include "sphere.h"
+#include "util.h"
 
 double hit_sphere(point3 center, double radius, ray ray) {
     auto a = ray.direction().length_squared();
@@ -22,16 +24,13 @@ double hit_sphere(point3 center, double radius, ray ray) {
     return (-2 * h - std::sqrt(disc)) / (2 * a);
 }
 
-color ray_color(const ray& r) {
-    point3 center(0, 0, -1);
-    double hit = hit_sphere(center, 0.5, r);
-    if (hit != -1.0) {
-        vec3 norm = unit_vector(r.at(hit) - center);
-
-        return 0.5 * (vec3(norm.x(), norm.y(), norm.z()) + vec3(1, 1, 1));
+color ray_color(ray &r, const obj3 &world) {
+    hit_record record;
+    if (world.hit(r, 0, infinity, record)) {
+        return 0.5 * (record.normal + color(1, 1, 1));
     }
 
-    double a = 0.5 * (r.direction().y() + 1);
+    double a = 0.5 * (unit_vector(r.direction()).y() + 1);
     return a * light_blue() + (1 - a) * white();
 }
 
@@ -45,6 +44,11 @@ int main() {
     auto viewport_height = 2.0;
     auto viewport_width = viewport_height * (double(image_width)/image_height);
     point3 camera_center = point3(0, 0, 0);
+
+    scene world;
+
+    world.add(make_shared<sphere>(point3(0, 0, -3), 0.5));
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
     auto viewport_u = vec3(viewport_width, 0, 0);
     auto viewport_v = vec3(0, -viewport_height, 0);
@@ -66,7 +70,7 @@ int main() {
             auto ray_direction = pixel_center - camera_center;
             ray r(camera_center, unit_vector(ray_direction));
 
-            write_color(std::cout, ray_color(r));
+            write_color(std::cout, ray_color(r, world));
         }
     }
 
