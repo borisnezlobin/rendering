@@ -36,6 +36,7 @@ set ( SOURCE
         src/util.h
         src/camera.h
         src/interval.h
+        src/material.h
 )
 
 # Specific compiler flags below. We're not going to add options for all possible compilers, but if

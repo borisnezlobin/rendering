@@ -7,11 +7,14 @@
 
 #include "util.h"
 
+class material;
+
 class hit_record {
 public:
     point3 point;
     vec3 normal;
     double t{};
+    shared_ptr<material> mat;
     bool front_face{};
 
     void set_face_normal(ray r, vec3 outward_normal) {

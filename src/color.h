@@ -23,9 +23,9 @@ static color light_blue() {
 }
 
 void write_color(std::ostream& out, const color& pixel_color) {
-    auto r = pixel_color.x();
-    auto g = pixel_color.y();
-    auto b = pixel_color.z();
+    auto r = linear_to_gamma(pixel_color.x());
+    auto g = linear_to_gamma(pixel_color.y());
+    auto b = linear_to_gamma(pixel_color.z());
 
     static const interval intensity(0, 0.9999);
     int rbyte = int(256 * intensity.clamp(r));

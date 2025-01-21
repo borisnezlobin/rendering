@@ -31,6 +31,14 @@ inline double random_double(double min, double max) {
     return random_double() * (max - min) + min;
 }
 
+inline double linear_to_gamma(double linear_component)
+{
+    if (linear_component > 0)
+        return std::sqrt(linear_component);
+
+    return 0;
+}
+
 #include "color.h"
 #include "ray.h"
 #include "vec3.h"

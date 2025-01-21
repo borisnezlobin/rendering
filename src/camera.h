@@ -5,6 +5,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include "material.h"
 #include "obj3.h"
 #include "util.h"
 
@@ -13,6 +14,7 @@ public:
     int image_width;
     double aspect_ratio = 19.0 / 6;
     const int aa_samples = 5;
+    const int max_depth = 50;
 
     camera(int width, double ar) {
         this->image_width = width;
@@ -40,7 +42,7 @@ public:
                         (sample == num_samples - 1 && samples_used == 0) &&
                         samples_used < num_samples * 0.75
                     ) {
-                        pixel_color += ray_color(get_ray(i, j, sample), world);
+                        pixel_color += ray_color(get_ray(i, j, sample), max_depth, world);
                         samples_used++;
                     }
 
@@ -77,18 +79,25 @@ private:
         pixel00_loc = upper_left + 0.5 * pixel_delta_u + 0.5 * pixel_delta_v;
     }
 
-    vec3 sample_square(int sample) {
+    vec3 sample_square(int sample) const {
         auto x = (sample % aa_samples) * (1.0 / aa_samples) - 0.5;
         auto y = (sample / aa_samples) * (1.0 / aa_samples) - 0.5;
         return { x, y, 0 };
         // return { random_double() - 0.5, random_double() - 0.5, 0 };
     }
 
-    static color ray_color(ray r, const obj3 &world) {
+    static color ray_color(ray r, int max_depth, const obj3 &world) {
+        if (max_depth <= 0) {
+            return { 0, 0, 0 };
+        }
         hit_record record;
 
-        if (world.hit(r, 0, infinity, record)) {
-            return 0.5 * (record.normal + color(1, 1, 1));
+        if (world.hit(r, 0.001, infinity, record)) {
+            ray dir;
+            color attenuation;
+            if (record.mat->scatter(r, record, attenuation, dir))
+                return attenuation * ray_color(dir, max_depth - 1, world);
+            return { 0, 0, 0 };
         }
 
         double a = 0.5 * (unit_vector(r.direction()).y() + 1);
