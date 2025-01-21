@@ -10,30 +10,29 @@ class sphere: public obj3 {
 public:
     sphere(const point3 &center, double radius): center { center }, radius { fmax(0, radius) } {}
 
-    bool hit(ray &ray, double tmin, double tmax, hit_record &rec) const override {
-        auto a = ray.direction().length_squared();
-        auto h = dot(ray.direction(), (center - ray.origin()));
-        auto c = (center - ray.origin()).length_squared() - radius * radius;
+    bool hit(ray& r, double ray_tmin, double ray_tmax, hit_record& rec) const override {
+        vec3 oc = center - r.origin();
+        auto a = r.direction().length_squared();
+        auto h = dot(r.direction(), oc);
+        auto c = oc.length_squared() - radius*radius;
 
-        const double disc = h * h - 4 * a * c;
-        if (disc < 0) {
+        auto discriminant = h*h - a*c;
+        if (discriminant < 0)
             return false;
-        }
 
-        const auto disc_root = sqrt(disc);
-        auto root = (h - disc_root) / a;
+        auto sqrtd = std::sqrt(discriminant);
 
-        if (root <= tmin || tmax <= root) {
-            root = (h + disc_root) / a;
-            if (root <= tmin || tmax <= root)
+        // Find the nearest root that lies in the acceptable range.
+        auto root = (h - sqrtd) / a;
+        if (root <= ray_tmin || ray_tmax <= root) {
+            root = (h + sqrtd) / a;
+            if (root <= ray_tmin || ray_tmax <= root)
                 return false;
         }
 
         rec.t = root;
-        rec.point = ray.at(rec.t);
-
-        vec3 outward_normal = (rec.point - center) / radius;
-        rec.set_face_normal(ray, outward_normal);
+        rec.point = r.at(rec.t);
+        rec.normal = (rec.point - center) / radius;
 
         return true;
     }

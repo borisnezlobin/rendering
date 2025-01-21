@@ -25,13 +25,10 @@ public:
         auto closest = tmax;
 
         for (const auto& obj: objects) {
-            if (obj->hit(r, tmin, tmax, tmp)) {
+            if (obj->hit(r, tmin, closest, tmp)) {
                 hit_anything = true;
-
-                if (tmp.t < closest) {
-                    closest = tmp.t;
-                    rec = tmp;
-                }
+                rec = tmp;
+                closest = tmp.t;
             }
         }
 
