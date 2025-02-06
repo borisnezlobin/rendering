@@ -17,8 +17,13 @@ inline Point3d point_relative_to_camera(const camera& cam, const Point3d& point)
     return relative_to(point - cam.center(), cam.dir());
 }
 
+/**
+ * returns the 2D (z=focal_depth) point projection of `point`
+ *
+ * @param point the point, *relative to the camera's position and orientation*, to project
+ */
 inline Point2d point_to_plane(const camera& cam, const Point3d &point) {
-    Point3d transform = point_relative_to_camera(cam, point);
+    Point3d transform = point;
 
     // perspective project the transform (now that the camera is at (0,0,0) and aligned with z-axis)
     if (transform.z() == 0)

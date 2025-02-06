@@ -36,7 +36,7 @@ void renderer::render_line(Point3d start, Point3d end) {
         draw_line(
             cam.plane_coord_to_screen(point_to_plane(cam, s)),
             cam.plane_coord_to_screen(point_to_plane(cam, e)),
-            1
+            2
         );
         return;
     }
@@ -50,10 +50,12 @@ void renderer::render_line(Point3d start, Point3d end) {
         e = plane_intercept;
     }
 
+    std::clog << "drawing line from " << s << " to " << e << std::endl;
+
     draw_line(
         cam.plane_coord_to_screen(point_to_plane(cam, s)),
         cam.plane_coord_to_screen(point_to_plane(cam, e)),
-    1);
+    2);
 }
 
 void renderer::draw_line(coord start, coord end, double thickness) {
@@ -65,6 +67,7 @@ void renderer::draw_line(coord start, coord end, double thickness) {
     int y1 = end.y();
 
     if (x1 < x0) {
+        std::clog << "huh\n";
         std::swap(x0, x1);
         std::swap(y0, y1);
     }
@@ -82,14 +85,31 @@ void renderer::draw_line(coord start, coord end, double thickness) {
 
     double slope = 1.0 * (y1 - y0) / (x1 - x0);
     double y_intercept = y0 - slope * x0;
-    for (int x = x0; x < x1; x++) {
-        int y = slope * x + y_intercept;
-        int i = -thickness / 2;
-        do {
-            b.set_pixel(coord(x, y + i), light_blue());
-            i++;
-        } while (i < thickness / 2);
+
+    if (fabs(slope) > 1) {
+        for (int x = x0; x < x1; x++) {
+            int y = slope * x + y_intercept;
+            int y2 = slope * (x + 1) + y_intercept;
+            if (y2 < y) std::swap(y, y2);
+
+            for (int i = -thickness / 2; i < thickness / 2; i++) {
+                for (int j = y; j < y2; j++) {
+                    b.set_pixel(coord(x, j + i), light_blue());
+                }
+            }
+        }
+    } else {
+        for (int x = x0; x < x1; x++) {
+            int y = slope * x + y_intercept;
+
+            for (int i = -thickness / 2; i < thickness / 2; i++) {
+                for (int j = y; j < y + thickness; j++) {
+                    b.set_pixel(coord(x + i, j), light_blue());
+                }
+            }
+        }
     }
 
-    std::clog << "line from" << start << " to " << end << " took " << now() - start_time << "µs" << std::endl;
+
+    std::clog << "line from " << start << " to " << end << " took " << now() - start_time << "µs" << std::endl;
 }
