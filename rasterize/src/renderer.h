@@ -2,13 +2,12 @@
 // Created by Boris N on 1/27/25.
 //
 
-#include "camera.h"
-#include "geo/obj3.h"
-#include "bitmap.h"
-#include "util/rasterize.h"
 
 #ifndef RENDERER_H
 #define RENDERER_H
+
+#include "geo/obj3.h"
+#include "bitmap.h"
 
 class renderer {
 public:
@@ -28,6 +27,10 @@ public:
         std::clog << screen << "\n";
         b.set_pixel(screen, c);
     }
+
+    void render_triangle(const triangle& tri);
+
+    Point3d barycentric(Point2d vertices[], Point2d point);
 
     void write() {
         b.write();

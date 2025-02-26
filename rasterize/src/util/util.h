@@ -6,12 +6,14 @@
 #define UTIL_H
 
 #include <cmath>
+#include <utility>
 #include <iostream>
 #include <limits>
 #include <memory>
 #include <random>
 
 #include "Eigen/Dense"
+#include "Eigen/Geometry"
 
 using std::shared_ptr;
 using std::make_shared;
@@ -20,6 +22,8 @@ using namespace Eigen;
 
 using Point3d = Vector3d;
 using Point2d = Vector2d;
+using AABB = AlignedBox2d;
+using AABB3d = AlignedBox3d;
 
 const double infinity = std::numeric_limits<double>::infinity();
 const double pi = 3.141592653589793; // NASA uses 15 digits to land on the moon
@@ -54,5 +58,7 @@ inline long long now() {
 inline long long now_ms() {
     return now() / 1000000;
 }
+
+#include "./rasterize.h"
 
 #endif //UTIL_H

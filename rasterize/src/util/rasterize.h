@@ -6,7 +6,6 @@
 #define RASTERIZE_H
 
 #include "../camera.h"
-
 using Eigen::Vector3d;
 
 inline Vector3d relative_to(const Vector3d& original, const Quaterniond& rot) {
@@ -36,6 +35,9 @@ inline Point2d point_to_plane(const camera& cam, const Point3d &point) {
     };
 }
 
-
+inline bool inside_triangle(Point3d bary) {
+    // probably about right
+    return bary.x() >= 0 && bary.y() >= 0 && bary.z() >= 0 && (bary.x() + bary.y() + bary.z()) == 1;
+}
 
 #endif //RASTERIZE_H
