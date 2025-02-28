@@ -40,6 +40,10 @@ static color green() {
     return { 0.2, 1, 0.2 };
 }
 
+static color dark_grey() {
+    return { 0.2, 0.2, 0.2 };
+}
+
 static color black() {
     return { 0, 0, 0 };
 }

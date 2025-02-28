@@ -18,7 +18,7 @@ void renderer::render_obj(obj3 &obj) {
     }
 }
 
-void renderer::render_line(Point3d start, Point3d end) {
+void renderer::render_line(Point3d start, Point3d end, color c) {
     // coord s = cam.plane_coord_to_screen(point_to_plane(cam, start));
     // coord e = cam.plane_coord_to_screen(point_to_plane(cam, end));
     // draw_line(s, e, 1);
@@ -34,7 +34,8 @@ void renderer::render_line(Point3d start, Point3d end) {
         draw_line(
             cam.plane_coord_to_screen(point_to_plane(cam, s)),
             cam.plane_coord_to_screen(point_to_plane(cam, e)),
-            2
+            2,
+            c
         );
         return;
     }
@@ -52,10 +53,12 @@ void renderer::render_line(Point3d start, Point3d end) {
     draw_line(
         cam.plane_coord_to_screen(point_to_plane(cam, s)),
         cam.plane_coord_to_screen(point_to_plane(cam, e)),
-    2);
+        2,
+        c
+    );
 }
 
-void renderer::draw_line(coord start, coord end, double thickness) {
+void renderer::draw_line(coord start, coord end, double thickness, color c) {
     long long start_time = now();
     // render a line of thickness between two points
     int x0 = start.x();
@@ -73,7 +76,7 @@ void renderer::draw_line(coord start, coord end, double thickness) {
 
         for (int y = y0; y < y1; y++) {
             for (int i = -thickness / 2; i < thickness / 2; i++) {
-                b.set_pixel(coord(x0, y + i), light_blue());
+                b.set_pixel(coord(x0, y + i), c);
             }
         }
         return;
@@ -90,7 +93,7 @@ void renderer::draw_line(coord start, coord end, double thickness) {
 
             for (int i = -thickness / 2; i < thickness / 2; i++) {
                 for (int j = y; j < y2; j++) {
-                    b.set_pixel(coord(x, j + i), light_blue());
+                    b.set_pixel(coord(x, j + i), c);
                 }
             }
         }
@@ -100,7 +103,7 @@ void renderer::draw_line(coord start, coord end, double thickness) {
 
             for (int i = -thickness / 2; i < thickness / 2; i++) {
                 for (int j = y; j < y + thickness; j++) {
-                    b.set_pixel(coord(x + i, j), light_blue());
+                    b.set_pixel(coord(x + i, j), c);
                 }
             }
         }
@@ -151,7 +154,7 @@ void renderer::render_triangle(const triangle &tri) {
             Point2d point(x, y);
             Point3d bary = barycentric(texcoords, point);
             if (inside_triangle(bary)) {
-                b.set_pixel(coord(x, y), mix_colors(bary, tri.colors));
+                b.set_pixel_if_deep(coord(x, y), mix_colors(bary, tri.colors), bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z());
             }
         }
     }

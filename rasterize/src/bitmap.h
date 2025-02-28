@@ -12,7 +12,7 @@
 
 class bitmap {
 public:
-    bitmap(int width, int height) : width(width), height(height), map(width * height, black()) {};
+    bitmap(int width, int height) : width(width), height(height), map(width * height, black()), depth_map(width * height, infinity) {};
     void set_pixel(const int x, const int y, const color col) {
         if (!pixel_on_screen(x, y)) return;
         int index = x + y * width;
@@ -27,6 +27,17 @@ public:
         int index = -c.x() - c.y() * width + (width / 2) + (height / 2) * width;
         if (index >= map.size() || index < 0) return; // throw err
         map.at(index) = col;
+    }
+
+    void set_pixel_if_deep(coord c, const color col, double depth) {
+        if (!pixel_on_screen(c.x(), c.y())) return; // throw err or something idk
+        int index = -c.x() - c.y() * width + (width / 2) + (height / 2) * width;
+        if (index >= map.size() || index < 0) return; // throw err
+
+        if (depth > depth_map.at(index)) return;
+
+        map.at(index) = col;
+        depth_map.at(index) = depth;
     }
 
     void add_triangle(triangle tri) {
@@ -62,6 +73,7 @@ private:
     int width;
     int height;
     std::vector<color> map;
+    std::vector<double> depth_map;
 };
 
 #endif //BITMAP_H

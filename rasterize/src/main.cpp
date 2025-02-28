@@ -15,14 +15,14 @@ int main() {
 
     const triangle t(
         Point3d(-1, 0, 20),
-        Point3d(0, 0, 22),
+        Point3d(0, 1, 20),
         Point3d(1, 0, 20),
         { green(), green(), green() }
     );
 
     const triangle t2(
         Point3d(-1, 0, 21),
-        Point3d(0, 0, 23),
+        Point3d(0, 1, 21),
         Point3d(2, 0, 21),
         { red(), red(), red() }
     );
@@ -38,8 +38,8 @@ int main() {
     }
 
     // draw the triangles to check our renderer
-    r.render_triangle(t2);
     r.render_triangle(t);
+    r.render_triangle(t2);
 
     // write
     r.write();
