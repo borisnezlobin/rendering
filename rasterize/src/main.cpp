@@ -23,7 +23,7 @@ int main() {
     const triangle t2(
         Point3d(-1, 0, 20),
         Point3d(0, 0, 22),
-        Point3d(1, 0, 20),
+        Point3d(2, 0, 20),
         { red(), red(), red() }
     );
 

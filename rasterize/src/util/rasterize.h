@@ -31,7 +31,7 @@ inline Point2d point_to_plane(const camera& cam, const Point3d &point) {
     const auto scale = cam.f() / transform.z();
     return {
         (transform.x() * scale),
-        (transform.y() * scale) * (transform.z() < 0 ? -1 : 1)
+        (transform.y() * scale)
     };
 }
 

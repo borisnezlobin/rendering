@@ -31,7 +31,7 @@ public:
 
     coord plane_coord_to_screen(const Point2d &pos) const {
         return {
-            static_cast<int>(-1 * pos.x() * pixels_per_world_unit),
+            static_cast<int>(pos.x() * pixels_per_world_unit),
             static_cast<int>(pos.y() * pixels_per_world_unit)
         };
     }
