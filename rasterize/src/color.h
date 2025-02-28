@@ -16,12 +16,28 @@ public:
     double y() const { return e[1]; }
     double z() const { return e[2]; }
 
+    color operator+=(const color value) const {
+        return { e[0] + value.e[0], e[1] + value.e[1], e[2] + value.e[2] };
+    }
+
+    color operator/(int i) const {
+        return { e[0] / i, e[1] / i, e[2] / i };
+    }
+
+    color operator/(double i) const {
+        return { e[0] / i, e[1] / i, e[2] / i };
+    }
+
 private:
     std::array<double, 3> e;
 };
 
 static color white() {
     return { 1, 1, 1 };
+}
+
+static color green() {
+    return { 0.2, 1, 0.2 };
 }
 
 static color black() {
@@ -48,6 +64,17 @@ inline void write_color(std::ostream& out, const color& pixel_color) {
 
     // Write out the pixel color components.
     out << rbyte << ' ' << gbyte << ' ' << bbyte << '\n';
+}
+
+inline color mix_colors(Point3d weights, std::array<color, 3> colors) {
+    Point3d ret(0, 0, 0);
+    for (int i = 0; i < 3; i++) {
+        Point3d c(colors.at(i).x(), colors.at(i).y(), colors.at(i).z());
+        ret = ret + (c * weights[i]);
+    }
+
+    ret /= 3;
+    return { ret.x(), ret.y(), ret.z() };
 }
 
 #endif //COLOR_H
