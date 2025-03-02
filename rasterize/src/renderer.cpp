@@ -126,31 +126,20 @@ void renderer::render_triangle(const triangle &tri) {
 
     if (!on_screen) return;
 
-    Point3d plane_max = Point3d(
-        std::max(vertices[0].x(), std::max(vertices[1].x(), vertices[2].x())),
-        std::max(vertices[0].y(), std::max(vertices[1].y(), vertices[2].y())),
-        std::max(vertices[0].z(), std::max(vertices[1].z(), vertices[2].z()))
-    );
-
-    Point3d plane_min = Point3d(
-        std::min(vertices[0].x(), std::min(vertices[1].x(), vertices[2].x())),
-        std::min(vertices[0].y(), std::min(vertices[1].y(), vertices[2].y())),
-        std::min(vertices[0].z(), std::min(vertices[1].z(), vertices[2].z()))
-    );
-
-    // since the triangle is at least somewhat on screen, we can render it.
-    // first, we need to determine the bounding box of the triangle
-    AABB3d aabb(plane_min, plane_max);
-
-    // find the "left" edge
-    Point3d start = plane_min; // not
+     // not
 
     // clip the bounding box to the screen
-    coord minc = cam.plane_coord_to_screen(point_to_plane(cam, aabb.min()));
-    coord maxc = cam.plane_coord_to_screen(point_to_plane(cam, aabb.max()));
+    Point2d minc = Point2d(
+        std::min(texcoords[0].x(), std::min(texcoords[1].x(), texcoords[2].x())),
+        std::min(texcoords[0].y(), std::min(texcoords[1].y(), texcoords[2].y()))
+    );
+    Point2d maxc = Point2d(
+        std::max(texcoords[0].x(), std::max(texcoords[1].x(), texcoords[2].x())),
+        std::max(texcoords[0].y(), std::max(texcoords[1].y(), texcoords[2].y()))
+    );
 
-    minc = coord(std::max(-width / 2, minc.x()), std::max(-height / 2, minc.y()));
-    maxc = coord(std::min(width / 2, maxc.x()), std::min(height / 2, maxc.y()));
+    minc = Point2d(std::max(-width / 2.0, minc.x()), std::max(-height / 2.0, minc.y()));
+    maxc = Point2d(std::min(width / 2.0, maxc.x()), std::min(height / 2.0, maxc.y()));
     auto screen_aabb = AABB(
         Point2d(std::min(maxc.x(), minc.x()), std::min(maxc.y(), minc.y())),
         Point2d(std::max(maxc.x(), minc.x()), std::max(maxc.y(), minc.y()))
@@ -175,7 +164,7 @@ void renderer::render_triangle(const triangle &tri) {
             }
 
             if (fuzzy_compare(texcoords[i].x(), texcoords[j].x())) {
-                intercepts[i] = vertices[i].x();
+                intercepts[i] = texcoords[i].x();
             } else {
                 // find line, calculate x-intercept at y=y
                 // (x0, y0) = texcoords[i]; (x1, y1) = texcoords[j].
@@ -201,7 +190,7 @@ void renderer::render_triangle(const triangle &tri) {
         int min_intercept_i = std::ceil(min_intercept);
         int max_intercept_i = std::floor(max_intercept);
 
-        // now we can draw the horizontal line.
+        // now we can draw the horizontal line
         int x = max_intercept_i;
         do {
             Point3d bary = barycentric(texcoords, Point2d(x, y));

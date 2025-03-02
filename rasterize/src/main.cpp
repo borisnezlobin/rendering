@@ -11,6 +11,7 @@ int main() {
     double aspect_ratio = 2;
     camera cam(1, image_width, image_width / aspect_ratio);
     renderer r(image_width, 2, 1, cam);
+    long long start = now();
     cam.set_position(Point3d(0, 5, 0));
 
     const triangle t(
@@ -37,17 +38,43 @@ int main() {
     cam.set_rotation(Quaterniond(0.9914, 0.13052, 0, 0)); // looking down 15 degrees or something
 
     // draw some lines in a grid
-    for (int i = -10; i < 11; i++) {
-        r.render_line(Point3d(i, 0, -1), Point3d(i, 0, 30), dark_grey());
-        for (int j = 0; j < 31; j++) {
-            r.render_line(Point3d(-10, 0, j), Point3d(10, 0, j), dark_grey());
+    // for (int i = -10; i < 11; i++) {
+    //     r.render_line(Point3d(i, 0, -1), Point3d(i, 0, 30), dark_grey());
+    //     for (int j = 0; j < 31; j++) {
+    //         r.render_line(Point3d(-10, 0, j), Point3d(10, 0, j), dark_grey());
+    //     }
+    // }
+
+    // draw the triangles to check our renderer
+    // r.render_triangle(t);
+    // r.render_triangle(t2);
+    // r.render_triangle(t3);
+
+    for (int i = 10; i < 30; i++) {
+        for (int j = -10; j < 10; j++) {
+            double scale = 1;
+            r.render_triangle(triangle(
+                Point3d(j + random_double(-scale, scale), 0, i + random_double(-scale, scale)),
+                Point3d(j + random_double(-scale, scale), random_double(0, scale), i + random_double(-scale, scale)),
+                Point3d(j + random_double(-scale, scale), random_double(0, scale), i + random_double(-scale, scale)),
+                std::array{
+                    color(random_double(), random_double(), random_double()),
+                    color(random_double(), random_double(), random_double()),
+                    color(random_double(), random_double(), random_double())
+                }
+            ));
         }
     }
 
-    // draw the triangles to check our renderer
-    r.render_triangle(t);
-    r.render_triangle(t2);
-    r.render_triangle(t3);
+    // r.render_triangle(triangle(
+    //     Point3d(4, 0, 20),
+    //     Point3d(3, 2, 21),
+    //     Point3d(0, 2.5, 22),
+    //     std::array{red(), white(), green()}
+    // ));
+
+    std::clog << "render time: " << now() - start << " ns" << std::endl;
+    std::clog << "expected fps: " << 1e9 / (now() - start) << std::endl;
 
     // write
     r.write();
