@@ -7,14 +7,7 @@
 
 void renderer::render_obj(obj3 &obj) {
     for (auto &tri : obj.get_tris()) {
-        for (int i = 0; i < 3; i++) {
-            Point3d temp = tri.vertices[i];
-            Point2d plane = point_to_plane(cam, temp);
-            coord screen = cam.plane_coord_to_screen(plane);
-            if (cam.coord_on_screen(screen)) {
-                b.set_pixel(screen, light_blue());
-            }
-        }
+        render_triangle(tri);
     }
 }
 
@@ -34,7 +27,7 @@ void renderer::render_line(Point3d start, Point3d end, color c) {
         draw_line(
             cam.plane_coord_to_screen(point_to_plane(cam, s)),
             cam.plane_coord_to_screen(point_to_plane(cam, e)),
-            2,
+            1,
             c
         );
         return;
@@ -53,7 +46,7 @@ void renderer::render_line(Point3d start, Point3d end, color c) {
     draw_line(
         cam.plane_coord_to_screen(point_to_plane(cam, s)),
         cam.plane_coord_to_screen(point_to_plane(cam, e)),
-        2,
+        1,
         c
     );
 }
@@ -133,10 +126,24 @@ void renderer::render_triangle(const triangle &tri) {
 
     if (!on_screen) return;
 
+    Point3d plane_max = Point3d(
+        std::max(vertices[0].x(), std::max(vertices[1].x(), vertices[2].x())),
+        std::max(vertices[0].y(), std::max(vertices[1].y(), vertices[2].y())),
+        std::max(vertices[0].z(), std::max(vertices[1].z(), vertices[2].z()))
+    );
+
+    Point3d plane_min = Point3d(
+        std::min(vertices[0].x(), std::min(vertices[1].x(), vertices[2].x())),
+        std::min(vertices[0].y(), std::min(vertices[1].y(), vertices[2].y())),
+        std::min(vertices[0].z(), std::min(vertices[1].z(), vertices[2].z()))
+    );
+
     // since the triangle is at least somewhat on screen, we can render it.
     // first, we need to determine the bounding box of the triangle
-    AABB3d aabb(vertices[0], vertices[1]);
-    aabb.extend(vertices[2]);
+    AABB3d aabb(plane_min, plane_max);
+
+    // find the "left" edge
+    Point3d start = plane_min; // not
 
     // clip the bounding box to the screen
     coord minc = cam.plane_coord_to_screen(point_to_plane(cam, aabb.min()));
@@ -148,15 +155,63 @@ void renderer::render_triangle(const triangle &tri) {
         Point2d(std::min(maxc.x(), minc.x()), std::min(maxc.y(), minc.y())),
         Point2d(std::max(maxc.x(), minc.x()), std::max(maxc.y(), minc.y()))
     );
-    // render the triangle that is inside the bounding box
-    for (int x = screen_aabb.min().x(); x < screen_aabb.max().x(); x++) {
-        for (int y = screen_aabb.min().y(); y < screen_aabb.max().y(); y++) {
-            Point2d point(x, y);
-            Point3d bary = barycentric(texcoords, point);
-            if (inside_triangle(bary)) {
-                b.set_pixel_if_deep(coord(x, y), mix_colors(bary, tri.colors), bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z());
+
+    // use scanline and edge-intercepts
+    for (int y = screen_aabb.min().y(); y <= screen_aabb.max().y(); y++) {
+        // calculate x-intercept for each edge on this y value
+        double intercepts[3];
+        for (int i = 0; i < 3; i++) {
+            int j = (i + 1) % 3;
+            if ((texcoords[i].y() > y && texcoords[j].y() > y) || (texcoords[i].y() < y && texcoords[j].y() < y)) {
+                intercepts[i] = -1;
+                continue;
+            }
+            if (fuzzy_compare(texcoords[i].y(), texcoords[j].y())) {
+                // since the entire width of the triangle is on this line, we can just draw a line
+                // but I'm lazy, so instead we're gonna fake the endpoints of the line
+                intercepts[0] = texcoords[i].x();
+                intercepts[1] = texcoords[j].x();
+                break;
+            }
+
+            if (fuzzy_compare(texcoords[i].x(), texcoords[j].x())) {
+                intercepts[i] = vertices[i].x();
+            } else {
+                // find line, calculate x-intercept at y=y
+                // (x0, y0) = texcoords[i]; (x1, y1) = texcoords[j].
+                double slope = (texcoords[i].y() - texcoords[j].y()) / (texcoords[i].x() - texcoords[j].x());
+                intercepts[i] = (y - texcoords[i].y()) / slope + texcoords[i].x();
             }
         }
+
+
+        double min_intercept = infinity;
+        double max_intercept = -infinity;
+        for (int i = 0; i < 3; i++) {
+            if (intercepts[i] == -1) continue;
+            min_intercept = std::min(min_intercept, intercepts[i]);
+            max_intercept = std::max(max_intercept, intercepts[i]);
+        }
+
+        // clamp intercepts to the screen
+        min_intercept = std::max(min_intercept, screen_aabb.min().x());
+        max_intercept = std::min(max_intercept, screen_aabb.max().x());
+
+        // round up both intercepts
+        int min_intercept_i = std::ceil(min_intercept);
+        int max_intercept_i = std::floor(max_intercept);
+
+        // now we can draw the horizontal line.
+        int x = max_intercept_i;
+        do {
+            Point3d bary = barycentric(texcoords, Point2d(x, y));
+            b.set_pixel_if_deep(
+                coord(x, y),
+                mix_colors(bary, tri.colors),
+                bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z()
+            );
+            x--;
+        } while (x >= min_intercept_i);
     }
 }
 

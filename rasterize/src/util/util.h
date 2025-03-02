@@ -50,6 +50,10 @@ inline double linear_to_gamma(double linear_component)
     return 0;
 }
 
+inline bool fuzzy_compare(double a, double b) {
+    return std::abs(a - b) < 0.0001;
+}
+
 inline long long now() {
     const std::chrono::nanoseconds ns = std::chrono::system_clock::now().time_since_epoch();
     return ns.count();

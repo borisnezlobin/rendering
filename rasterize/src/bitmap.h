@@ -13,15 +13,8 @@
 class bitmap {
 public:
     bitmap(int width, int height) : width(width), height(height), map(width * height, black()), depth_map(width * height, infinity) {};
-    void set_pixel(const int x, const int y, const color col) {
-        if (!pixel_on_screen(x, y)) return;
-        int index = x + y * width;
-        if (index < 0) return;
-        if (index > map.size()) return;
 
-        map.at(index) = col;
-    }
-
+    // USE WITH CAUTION
     void set_pixel(coord c, const color col) {
         if (!pixel_on_screen(c.x(), c.y())) return; // throw err or something idk
         int index = -c.x() - c.y() * width + (width / 2) + (height / 2) * width;
