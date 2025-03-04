@@ -126,9 +126,6 @@ void renderer::render_triangle(const triangle &tri) {
 
     if (!on_screen) return;
 
-     // not
-
-    // clip the bounding box to the screen
     Point2d minc = Point2d(
         std::min(texcoords[0].x(), std::min(texcoords[1].x(), texcoords[2].x())),
         std::min(texcoords[0].y(), std::min(texcoords[1].y(), texcoords[2].y()))
@@ -138,8 +135,9 @@ void renderer::render_triangle(const triangle &tri) {
         std::max(texcoords[0].y(), std::max(texcoords[1].y(), texcoords[2].y()))
     );
 
+    // clip the bounding box to the screen
     minc = Point2d(std::max(-width / 2.0, minc.x()), std::max(-height / 2.0, minc.y()));
-    maxc = Point2d(std::min(width / 2.0, maxc.x()), std::min(height / 2.0, maxc.y()));
+    maxc = Point2d(std::min((width - 1) / 2.0, maxc.x()), std::min((height - 1) / 2.0, maxc.y()));
     auto screen_aabb = AABB(
         Point2d(std::min(maxc.x(), minc.x()), std::min(maxc.y(), minc.y())),
         Point2d(std::max(maxc.x(), minc.x()), std::max(maxc.y(), minc.y()))
@@ -204,7 +202,7 @@ void renderer::render_triangle(const triangle &tri) {
     }
 }
 
-// returns the barycentric coordinates of a point in a triangle... all points are relative to the camera
+// returns the barycentric coordinates of a point in a triangle
 Point3d renderer::barycentric(Point2d vertices[], Point2d point) {
     Point2d v0 = vertices[1] - vertices[0];
     Point2d v1 = vertices[2] - vertices[0];
