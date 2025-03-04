@@ -59,6 +59,7 @@ int main() {
     r.set_pixel(-5, -2, green());
     r.set_pixel(-4, -2, green());
     r.set_pixel(4, -1, green());
+    r.set_pixel(4, 2, red());
 
     // for (int i = 10; i < 30; i++) {
     //     for (int j = -10; j < 10; j++) {

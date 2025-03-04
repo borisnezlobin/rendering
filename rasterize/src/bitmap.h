@@ -25,7 +25,7 @@ public:
         // calculate index of pixel given that coordinates (for example, 0,0 is at the center of the screen)
         // if width = 480 and height = 240, then coordinates range from (-240, -120) to (239, 119)
         // index should be 0 at (-240, -120)
-        int index = (c.x() + width/2) - (c.y() + height/2) * width;;
+        int index = (c.x() + width/2) + (c.y() + height/2) * width;
         if (index >= map.size() || index < 0) return; // throw err
         map.at(index) = col;
     }
