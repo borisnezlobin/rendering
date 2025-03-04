@@ -180,6 +180,10 @@ void renderer::render_triangle(const triangle &tri) {
             max_intercept = std::max(max_intercept, intercepts[i]);
         }
 
+        if (min_intercept > screen_aabb.max().x() || max_intercept < screen_aabb.min().x()) {
+            continue;
+        }
+
         // clamp intercepts to the screen
         min_intercept = std::max(min_intercept, screen_aabb.min().x());
         max_intercept = std::min(max_intercept, screen_aabb.max().x());

@@ -19,22 +19,22 @@ public:
         depth_map(width * height, infinity)
     {};
 
-    // USE WITH CAUTION
+    // USE WITH CAUTION. definitely correct
     void set_pixel(coord c, const color col) {
-        // if (!pixel_on_screen(c.x(), c.y())) return; // throw err or something idk
+        // check if pixel is on screen
+        if (!pixel_on_screen(c.x(), c.y())) return;
         // calculate index of pixel given that coordinates (for example, 0,0 is at the center of the screen)
         // if width = 480 and height = 240, then coordinates range from (-240, -120) to (239, 119)
         // index should be 0 at (-240, -120)
         int index = (c.x() + width/2) + (c.y() + height/2) * width;
-        if (index >= map.size() || index < 0) return; // throw err
+        if (index >= map.size() || index < 0) return;
         map.at(index) = col;
     }
 
     void set_pixel_if_deep(coord c, const color col, double depth) {
-        if (!pixel_on_screen(c.x(), c.y())) return; // throw err or something idk
-        int index = -c.x() - c.y() * width + (width / 2) + (height / 2) * width;
-        if (index >= map.size() || index < 0) return; // throw err
-
+        if (!pixel_on_screen(c.x(), c.y())) return;
+        int index = (c.x() + width/2) + (c.y() + height/2) * width;
+        if (index >= map.size() || index < 0) return;
         if (depth > depth_map.at(index)) return;
 
         map.at(index) = col;
@@ -56,7 +56,8 @@ public:
     }
 
     bool pixel_on_screen(const int x, const int y) {
-        return (x < (width) / 2.0 && y < (height + 1) / 2.0 && x > (-(width + 1) / 2.0) && y > (-(height) / 2.0));
+        // check whether given coordinate is on screen
+        return x >= -width/2 && x < width/2 && y >= -height/2 && y < height/2;
     }
 
     color get_pixel(int x, int y) {
