@@ -15,11 +15,13 @@ public:
         return tris;
     }
 
-    static obj3 load_model(std::string path);
+    static obj3 load_model(std::string str);
 
 private:
     std::vector<triangle> tris;
     int num_tris;
 };
+
+
 
 #endif //OBJ3_H

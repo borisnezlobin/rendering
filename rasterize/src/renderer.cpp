@@ -6,8 +6,12 @@
 #include "renderer.h"
 
 void renderer::render_obj(obj3 &obj) {
+    render_obj(obj, Point3d(0, 0, 0), Quaterniond(1, 0, 0, 0), Point3d(1, 1, 1));
+}
+
+void renderer::render_obj(obj3 &obj, Point3d position, Quaterniond orientation, Point3d scale) {
     for (auto &tri : obj.get_tris()) {
-        render_triangle(tri);
+        render_triangle((tri * scale) + position);
     }
 }
 
@@ -123,8 +127,6 @@ void renderer::render_triangle(const triangle &tri) {
             break;
         }
     }
-
-    // todo: check if all the vertices are hidden
 
     if (!on_screen) return;
 

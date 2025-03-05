@@ -16,4 +16,6 @@ add_executable(rendering src/main.cpp
         src/geo/obj3.h
         src/renderer.cpp
         src/renderer.h
+        src/geo/obj3.cpp
+        src/util/tiny_obj_loader.cpp
 )

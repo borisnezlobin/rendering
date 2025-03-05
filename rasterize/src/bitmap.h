@@ -23,16 +23,16 @@ public:
         // calculate index of pixel given that coordinates (for example, 0,0 is at the center of the screen)
         // if width = 480 and height = 240, then coordinates range from (-240, -120) to (239, 119)
         // index should be 0 at (-240, -120)
-        int index = (c.x() + width/2) + (c.y() + height/2) * width;
+        int index = index_of(c.x(), c.y());
         if (index >= map.size() || index < 0) return;
         map.at(index) = col;
     }
 
     void set_pixel_if_deep(coord c, const color col, double depth) {
         if (!pixel_on_screen(c.x(), c.y())) return;
-        int index = (c.x() + width/2) + (c.y() + height/2) * width;
+        int index = index_of(c.x(), c.y());
         if (index >= map.size() || index < 0) return;
-        if (depth > depth_map.at(index)) return;
+        if (depth + 0.00001 >= depth_map.at(index)) return;
 
         map.at(index) = col;
         depth_map.at(index) = depth;
@@ -57,6 +57,11 @@ public:
         return x >= -width/2 && x < width/2 && y >= -height/2 && y < height/2;
     }
 
+    double depth(int x, int y) {
+        if (!pixel_on_screen(x, y)) return -1;
+        return depth_map.at(index_of(x, y));
+    }
+
     color get_pixel(int x, int y) {
         return map.at(x * width + y);
     }
@@ -70,6 +75,10 @@ private:
     int height;
     std::vector<color> map;
     std::vector<double> depth_map;
+
+    int index_of(int x, int y) {
+        return (x + width/2) + (y + height/2) * width;;
+    }
 };
 
 #endif //BITMAP_H

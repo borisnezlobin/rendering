@@ -40,6 +40,10 @@ public:
         return { e[0] + color.e[0], e[1] + color.e[1], e[2] + color.e[2] };
     }
 
+    static color random() {
+        return { random_double(), random_double(), random_double() };
+    }
+
 private:
     std::array<double, 3> e;
 };

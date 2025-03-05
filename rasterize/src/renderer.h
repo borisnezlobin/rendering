@@ -20,6 +20,7 @@ public:
     {}
 
     void render_obj(obj3 &obj);
+    void render_obj(obj3 &obj, Point3d position, Quaterniond orientation, Point3d scale);
     void render_line(Point3d start, Point3d end, color c);
     void draw_line(coord start, coord end, double thickness, color c);
     void set_pixel(int x, int y, color c) {

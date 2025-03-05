@@ -4,63 +4,63 @@
 
 #include "renderer.h"
 
-int main() {
-    int image_width = 800;
-    double aspect_ratio = 2;
-    camera cam(1, image_width, image_width / aspect_ratio);
-    renderer r(image_width, 2, 1, cam);
-    long long start = now();
-    cam.set_position(Point3d(0, 5, 0));
-
-    const triangle t(
-        Point3d(-1, 0, 20),
-        Point3d(0, 1, 20),
-        Point3d(1, 0, 20),
-        { green(), white(), red() }
-    );
-
-    const triangle t2(
-        Point3d(-1, 0, 21),
-        Point3d(0, 1, 21),
-        Point3d(2, 0, 21),
-        { red(), red(), red() }
-    );
-
-    const triangle t3(
-        Point3d(2, 0, 21),
-        Point3d(0, 1, 20),
-        Point3d(1, 0, 20),
-        { light_blue(), light_blue(), light_blue() }
-    );
-
-    cam.set_rotation(Quaterniond(0.9914, 0.13052, 0, 0)); // looking down 15 degrees or something
-
-    // draw some lines in a grid
+void draw_grid(renderer &r) {
     for (int i = -10; i < 11; i++) {
         r.render_line(Point3d(i, 0, -1), Point3d(i, 0, 30), dark_grey());
         for (int j = 0; j < 31; j++) {
             r.render_line(Point3d(-10, 0, j), Point3d(10, 0, j), dark_grey());
         }
     }
+}
 
-    // draw the triangles to check our renderer
-    // r.render_triangle(t);
-    // r.render_triangle(t2);
-    // r.render_triangle(t3);
+int main() {
+    int image_width = 1600;
+    double aspect_ratio = 2;
+    camera cam(1, image_width, image_width / aspect_ratio);
+    renderer r(image_width, 2, 1, cam);
+    long long start = now();
+    cam.set_position(Point3d(0, 5, 0));
 
-    for (int i = 10; i < 30; i++) {
-        for (int j = -10; j < 10; j++) {
-            double scale = 1;
-            r.render_triangle(triangle(
-                Point3d(j + random_double(-scale, scale), 0, i + random_double(-scale, scale)),
-                Point3d(j + random_double(-scale, scale), random_double(0, scale), i + random_double(-scale, scale)),
-                Point3d(j + random_double(-scale, scale), random_double(0, scale), i + random_double(-scale, scale)),
-                std::array{
-                    color(random_double(), random_double(), random_double()),
-                    color(random_double(), random_double(), random_double()),
-                    color(random_double(), random_double(), random_double())
-                }
-            ));
+    cam.set_rotation(Quaterniond(0.9914, 0.13052, 0, 0)); // looking down 15 degrees or something
+
+    triangle t1(
+        Point3d(0, 0, 20),
+        Point3d(-1, 0, 20),
+        Point3d(-1, 1, 24),
+        { red(), red(), blue() }
+    );
+
+    triangle t2(
+        Point3d(-2, 0, 24),
+        Point3d(-1, 0, 20),
+        Point3d(-1, 1, 24),
+        { white(), white(), green() }
+    );
+
+    triangle t3(
+        Point3d(-2, 0, 24),
+        Point3d(-1, 0, 20),
+        Point3d(-2, 0, 20),
+        { light_blue(), light_blue(), white() }
+    );
+
+    // draw some lines in a grid
+    draw_grid(r);
+
+    obj3 cube = obj3::load_model("cube.obj");
+
+    for (int x = -10; x < 11; x += 3) {
+        for (int z = 15; z < 30; z += 3) {
+            r.render_obj(
+                cube,
+                Point3d(x, 0, z),
+                Quaterniond(1, 0, 0, 0),
+                Point3d(
+                    random_double(0.15, 0.5),
+                    random_double(0.15, 0.25),
+                    random_double(0.15, 0.5)
+                )
+            );
         }
     }
 
