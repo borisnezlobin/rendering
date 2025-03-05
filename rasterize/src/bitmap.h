@@ -4,11 +4,8 @@
 
 #ifndef BITMAP_H
 #define BITMAP_H
-#include <utility>
 
-#include "color.h"
 #include "geo/coord.h"
-#include "geo/triangle.h"
 
 class bitmap {
 public:

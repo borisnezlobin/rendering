@@ -5,12 +5,12 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <cmath>
 #include <utility>
+#include <array>
 #include <iostream>
 #include <limits>
 #include <memory>
-#include <random>
+#include <fstream>
 
 #include "Eigen/Dense"
 #include "Eigen/Geometry"
@@ -25,23 +25,6 @@ using Point2d = Vector2d;
 using AABB = AlignedBox2d;
 using AABB3d = AlignedBox3d;
 
-const double infinity = std::numeric_limits<double>::infinity();
-const double pi = 3.141592653589793; // NASA uses 15 digits to land on the moon
-
-inline double to_radians(double degrees) {
-    return degrees * pi / 180.0;
-}
-
-inline double random_double() {
-    static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-    static std::mt19937 generator;
-    return distribution(generator);
-}
-
-inline double random_double(double min, double max) {
-    return random_double() * (max - min) + min;
-}
-
 inline double linear_to_gamma(double linear_component)
 {
     if (linear_component > 0)
@@ -50,9 +33,6 @@ inline double linear_to_gamma(double linear_component)
     return 0;
 }
 
-inline bool fuzzy_compare(double a, double b) {
-    return std::abs(a - b) < 0.0001;
-}
 
 inline long long now() {
     const std::chrono::nanoseconds ns = std::chrono::system_clock::now().time_since_epoch();
@@ -63,6 +43,9 @@ inline long long now_ms() {
     return now() / 1000000;
 }
 
+
+#define TINYOBJLOADER_IMPLEMENTATION
+#include "tiny_obj_loader.h"
 #include "./rasterize.h"
 
 #endif //UTIL_H

@@ -2,8 +2,6 @@
 // Created by Boris N on 1/14/25.
 //
 
-
-#include "./util/util.h"
 #include "renderer.h"
 
 int main() {
@@ -38,22 +36,17 @@ int main() {
     cam.set_rotation(Quaterniond(0.9914, 0.13052, 0, 0)); // looking down 15 degrees or something
 
     // draw some lines in a grid
-    // for (int i = -10; i < 11; i++) {
-    //     r.render_line(Point3d(i, 0, -1), Point3d(i, 0, 30), dark_grey());
-    //     for (int j = 0; j < 31; j++) {
-    //         r.render_line(Point3d(-10, 0, j), Point3d(10, 0, j), dark_grey());
-    //     }
-    // }
+    for (int i = -10; i < 11; i++) {
+        r.render_line(Point3d(i, 0, -1), Point3d(i, 0, 30), dark_grey());
+        for (int j = 0; j < 31; j++) {
+            r.render_line(Point3d(-10, 0, j), Point3d(10, 0, j), dark_grey());
+        }
+    }
 
     // draw the triangles to check our renderer
     // r.render_triangle(t);
     // r.render_triangle(t2);
     // r.render_triangle(t3);
-
-    // r.set_pixel(-5, -2, green());
-    // r.set_pixel(-4, -2, green());
-    // r.set_pixel(4, -1, green());
-    // r.set_pixel(4, 2, red());
 
     for (int i = 10; i < 30; i++) {
         for (int j = -10; j < 10; j++) {

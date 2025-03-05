@@ -7,7 +7,7 @@
 
 #include "./util/interval.h"
 #include "./util/util.h"
-
+#include "./util/mathutil.h"
 
 class color {
 public:

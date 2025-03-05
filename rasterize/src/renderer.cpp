@@ -124,6 +124,8 @@ void renderer::render_triangle(const triangle &tri) {
         }
     }
 
+    // todo: check if all the vertices are hidden
+
     if (!on_screen) return;
 
     Point2d minc = Point2d(

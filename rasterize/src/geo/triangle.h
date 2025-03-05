@@ -6,7 +6,6 @@
 #define TRIANGLE_H
 
 #include "../color.h"
-#include <array>
 
 class triangle {
 public:

@@ -4,6 +4,7 @@
 
 #ifndef OBJ3_H
 #define OBJ3_H
+
 #include "triangle.h"
 
 class obj3 {
@@ -13,6 +14,8 @@ public:
     std::vector<triangle>& get_tris() {
         return tris;
     }
+
+    static obj3 load_model(std::string path);
 
 private:
     std::vector<triangle> tris;
