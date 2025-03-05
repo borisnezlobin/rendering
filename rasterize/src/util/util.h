@@ -44,7 +44,6 @@ inline long long now_ms() {
 }
 
 
-#define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 #include "./rasterize.h"
 
