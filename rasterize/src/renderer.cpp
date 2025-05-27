@@ -148,9 +148,9 @@ void renderer::render_triangle(const triangle &tri) {
     );
 
     // use scanline and edge-intercepts
-    for (int y = screen_aabb.min().y(); y <= screen_aabb.max().y(); y++) {
+    for (int y = screen_aabb.min().y(); y < screen_aabb.max().y(); y++) {
         // calculate x-intercept for each edge on this y value
-        double intercepts[3];
+        double intercepts[3] = { -1.0, -1.0, -1.0 };;
         for (int i = 0; i < 3; i++) {
             int j = (i + 1) % 3;
             if ((texcoords[i].y() > y && texcoords[j].y() > y) || (texcoords[i].y() < y && texcoords[j].y() < y)) {
@@ -162,6 +162,7 @@ void renderer::render_triangle(const triangle &tri) {
                 // but I'm lazy, so instead we're gonna fake the endpoints of the line
                 intercepts[0] = texcoords[i].x();
                 intercepts[1] = texcoords[j].x();
+                intercepts[2] = -1.0;
                 break;
             }
 
