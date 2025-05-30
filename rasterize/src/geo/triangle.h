@@ -5,7 +5,6 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "obj3.h"
 #include "../color.h"
 
 class triangle {
@@ -41,6 +40,14 @@ public:
             vertices[2] + matrix,
             colors
         };
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const triangle& tri) {
+        os << "Triangle: [("
+           << tri.vertices[0].x() << ", " << tri.vertices[0].y() << ", " << tri.vertices[0].z() << "), ("
+        << tri.vertices[1].x() << ", " << tri.vertices[1].y() << ", " << tri.vertices[1].z() << "), ("
+        << tri.vertices[2].x() << ", " << tri.vertices[2].y() << ", " << tri.vertices[2].z() << ")]";
+        return os;
     }
 };
 

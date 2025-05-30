@@ -130,6 +130,8 @@ void renderer::render_triangle(const triangle &tri) {
 
     if (!on_screen) return;
 
+    std::clog << "triangle: " << tri << " corresponds to " << texcoords[0] << ", " << texcoords[1] << texcoords[2] << std::endl;
+
     Point2d minc = Point2d(
         std::min(texcoords[0].x(), std::min(texcoords[1].x(), texcoords[2].x())),
         std::min(texcoords[0].y(), std::min(texcoords[1].y(), texcoords[2].y()))
@@ -146,6 +148,10 @@ void renderer::render_triangle(const triangle &tri) {
         Point2d(std::min(maxc.x(), minc.x()), std::min(maxc.y(), minc.y())),
         Point2d(std::max(maxc.x(), minc.x()), std::max(maxc.y(), minc.y()))
     );
+
+    Point3d triangle_center = (
+        tri.vertices[0] + tri.vertices[1] + tri.vertices[2]
+    ) / 3.0;
 
     // use scanline and edge-intercepts
     for (int y = screen_aabb.min().y(); y < screen_aabb.max().y(); y++) {
@@ -176,7 +182,6 @@ void renderer::render_triangle(const triangle &tri) {
             }
         }
 
-
         double min_intercept = infinity;
         double max_intercept = -infinity;
         for (int i = 0; i < 3; i++) {
@@ -201,10 +206,17 @@ void renderer::render_triangle(const triangle &tri) {
         int x = max_intercept_i;
         do {
             Point3d bary = barycentric(texcoords, Point2d(x, y));
+            Point3d world_coords = Point3d(
+                bary[0] * vertices[0].x() + bary[1] * vertices[1].x() + bary[2] * vertices[2].x(),
+                bary[0] * vertices[0].y() + bary[1] * vertices[1].y() + bary[2] * vertices[2].y(),
+                bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z()
+            );
+            double dot_prod = (cam.center() - world_coords).dot(triangle_center - world_coords);
             b.set_pixel_if_deep(
                 coord(x, y),
                 mix_colors(bary, tri.colors),
-                bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z()
+                bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z(),
+                dot_prod
             );
             x--;
         } while (x >= min_intercept_i);

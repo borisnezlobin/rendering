@@ -13,7 +13,8 @@ public:
         width(width),
         height(height),
         map(width * height, black()),
-        depth_map(width * height, infinity)
+        depth_map(width * height, infinity),
+        dot_product_map(width * height, infinity)
     {};
 
     // USE WITH CAUTION. definitely correct
@@ -28,14 +29,24 @@ public:
         map.at(index) = col;
     }
 
-    void set_pixel_if_deep(coord c, const color col, double depth) {
+    void set_pixel_if_deep(
+        coord c,
+        const color col,
+        double depth,
+        double dot_product = infinity
+    ) {
         if (!pixel_on_screen(c.x(), c.y())) return;
         int index = index_of(c.x(), c.y());
         if (index >= map.size() || index < 0) return;
-        if (depth + 0.00001 >= depth_map.at(index)) return;
+        if (depth > depth_map.at(index) + 0.001) return;
+        // if this pixel is set and the depths are the same, compare dot products
+        if (fuzzy_compare(depth, depth_map.at(index))) {
+            if (dot_product <= dot_product_map.at(index)) return;
+        }
 
         map.at(index) = col;
         depth_map.at(index) = depth;
+        dot_product_map.at(index) = dot_product;
     }
 
     void write() {
@@ -75,6 +86,7 @@ private:
     int height;
     std::vector<color> map;
     std::vector<double> depth_map;
+    std::vector<double> dot_product_map;
 
     int index_of(int x, int y) {
         return (x + width/2) + (y + height/2) * width;;

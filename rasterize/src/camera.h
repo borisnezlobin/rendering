@@ -6,7 +6,7 @@
 #define CAMERA_H
 
 #include "geo/coord.h"
-#include "util/util.h"
+#include "geo/triangle.h"
 
 class camera {
 public:
@@ -23,6 +23,16 @@ public:
 
     void set_position(const Point3d &point) {
         pos = point;
+    }
+
+    double dot_of(const triangle& tri) const {
+        // calculate the dot product of the camera direction and the triangle normal
+        Point3d v0 = tri.vertices[1] - tri.vertices[0];
+        Point3d v1 = tri.vertices[2] - tri.vertices[0];
+        Point3d normal = v0.cross(v1);
+        Point3d view_dir = direction * Point3d(0, 0, -1); // Rotate -Z by the quaternion
+
+        return view_dir.dot(normal);
     }
 
     void set_rotation(const Quaterniond &quat) {

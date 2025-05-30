@@ -8,6 +8,8 @@
 
 #include "geo/obj3.h"
 #include "bitmap.h"
+#include "camera.h"
+#include "util/rasterize.h"
 
 class renderer {
 public:

@@ -22,6 +22,13 @@ using namespace Eigen;
 
 using Point3d = Vector3d;
 using Point2d = Vector2d;
+
+// print Point2d
+inline std::ostream& operator<<(std::ostream& os, const Point2d& p) {
+    os << "(" << p.x() << ", " << p.y() << ")";
+    return os;
+}
+
 using AABB = AlignedBox2d;
 using AABB3d = AlignedBox3d;
 
@@ -45,6 +52,5 @@ inline long long now_ms() {
 
 
 #include "tiny_obj_loader.h"
-#include "./rasterize.h"
 
 #endif //UTIL_H
