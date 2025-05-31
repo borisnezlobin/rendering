@@ -40,6 +40,10 @@ public:
         b.write();
     }
 
+    std::vector<uint32_t> export_bitmap() {
+        return b.export_bitmap();
+    }
+
 private:
     camera& cam;
     int width;

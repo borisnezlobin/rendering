@@ -1,0 +1,3 @@
+/Users/randomletters/CLionProjects/rendering/rasterize/build/CMakeFiles/rendering.dir
+/Users/randomletters/CLionProjects/rendering/rasterize/build/CMakeFiles/edit_cache.dir
+/Users/randomletters/CLionProjects/rendering/rasterize/build/CMakeFiles/rebuild_cache.dir

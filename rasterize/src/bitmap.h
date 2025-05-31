@@ -81,6 +81,18 @@ public:
         return map.at(c.x() * width + c.y());
     }
 
+    std::vector<uint32_t> export_bitmap() {
+        std::vector<uint32_t> result(width * height);
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
+                color c = get_pixel(j, i);
+                result[j * width + i] = c.to_uint32();
+            }
+        }
+
+        return result;
+    }
+
 private:
     int width;
     int height;

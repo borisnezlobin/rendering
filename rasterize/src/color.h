@@ -40,6 +40,15 @@ public:
         return { e[0] + color.e[0], e[1] + color.e[1], e[2] + color.e[2] };
     }
 
+    uint32_t to_uint32() {
+        // sketchy vibecode
+        return (
+            (static_cast<uint32_t>(linear_to_gamma(e[0]) * 255) << 16) |
+            (static_cast<uint32_t>(linear_to_gamma(e[1]) * 255) << 8) |
+            (static_cast<uint32_t>(linear_to_gamma(e[2]) * 255))
+        );
+    }
+
     static color random() {
         return { random_double(), random_double(), random_double() };
     }
