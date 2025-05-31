@@ -62,7 +62,6 @@ int main() {
 
     for (double x = -10.1; x < 11; x += 3) {
         for (double z = 15.1; z < 30; z += 3) {
-            if (x != -4.1 || z != 21.1) continue;
             r.render_obj(
                 cube,
                 Point3d(x, 0, z),
