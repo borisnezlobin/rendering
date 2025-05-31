@@ -14,6 +14,7 @@ public:
     std::array<Point2d, 3> uvs;
     unsigned char * tex = nullptr;
     int tex_width = 0;
+    int tex_height;
 
     triangle(): colors{ black(), black(), black() } {};
 

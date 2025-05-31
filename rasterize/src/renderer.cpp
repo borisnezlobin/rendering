@@ -181,10 +181,6 @@ void renderer::render_triangle(const triangle &tri, std::shared_ptr<Texture> tex
                 // find line, calculate x-intercept at y=y
                 // (x0, y0) = texcoords[i]; (x1, y1) = texcoords[j].
 
-                // todo: gpt said this bad
-                // double slope = (texcoords[i].y() - texcoords[j].y()) / (texcoords[i].x() - texcoords[j].x());
-                // intercepts[i] = (y - texcoords[i].y()) / slope + texcoords[i].x();
-
                 double t = (y - texcoords[i].y()) / (texcoords[j].y() - texcoords[i].y());
                 intercepts[i] = texcoords[i].x() + t * (texcoords[j].x() - texcoords[i].x());
             }
@@ -230,7 +226,10 @@ void renderer::render_triangle(const triangle &tri, std::shared_ptr<Texture> tex
                 // get color at tri.tex (1D array) using barycentric coordinates
                 double u = uv.x();
                 double v = uv.y();
-                int pixel_index = (v * tri.tex_width + u) * 3;
+                int x_tex = std::min(int(u * tri.tex_width), tri.tex_width - 1);
+                int y_tex = std::min(int((1.0 - v) * tri.tex_height), tri.tex_height - 1); // flip Y
+
+                int pixel_index = (y_tex * tri.tex_width + x_tex) * 3;
                 unsigned char r = tri.tex[pixel_index + 0];
                 unsigned char g = tri.tex[pixel_index + 1];
                 unsigned char b = tri.tex[pixel_index + 2];
@@ -240,11 +239,6 @@ void renderer::render_triangle(const triangle &tri, std::shared_ptr<Texture> tex
                     g / 255.0,
                     b / 255.0
                 );
-
-                std::clog << "Texture color at (" << u << ", " << v << "): "
-                	     << "R: " << r << ", "
-                	     << "G: " << g << ", "
-                	     << "B: " << b << "\n";
             }
 
             b.set_pixel_if_deep(

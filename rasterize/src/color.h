@@ -110,4 +110,8 @@ inline color mix_colors(Point3d weights, std::array<color, 3> colors) {
     return { ret.x(), ret.y(), ret.z() };
 }
 
+inline std::ostream& operator<<(std::ostream& os, const color& c) {
+    return os << "color(" << c.x() << ", " << c.y() << ", " << c.z() << ")";
+}
+
 #endif //COLOR_H
