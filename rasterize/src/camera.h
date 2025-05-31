@@ -41,9 +41,8 @@ public:
 
     coord plane_coord_to_screen(const Point2d &pos) const {
         return {
-            // negate because positive real-space quadrant is negative screen-space quadrant
-            static_cast<int>(-pos.x() * pixels_per_world_unit),
-            static_cast<int>(-pos.y() * pixels_per_world_unit)
+            static_cast<int>(-pos.x() * pixels_per_world_unit + 0.5),
+            static_cast<int>(-pos.y() * pixels_per_world_unit + 0.5)
         };
     }
 

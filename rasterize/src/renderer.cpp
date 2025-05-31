@@ -154,7 +154,8 @@ void renderer::render_triangle(const triangle &tri) {
     ) / 3.0;
 
     // use scanline and edge-intercepts
-    for (int y = screen_aabb.min().y(); y < screen_aabb.max().y(); y++) {
+    // for (int y = screen_aabb.min().y(); y < screen_aabb.max().y(); y++) {
+    for (int y = ceil(screen_aabb.min().y()); y < floor(screen_aabb.max().y()); y++) {
         // calculate x-intercept for each edge on this y value
         double intercepts[3] = { -1.0, -1.0, -1.0 };;
         for (int i = 0; i < 3; i++) {
@@ -177,8 +178,13 @@ void renderer::render_triangle(const triangle &tri) {
             } else {
                 // find line, calculate x-intercept at y=y
                 // (x0, y0) = texcoords[i]; (x1, y1) = texcoords[j].
-                double slope = (texcoords[i].y() - texcoords[j].y()) / (texcoords[i].x() - texcoords[j].x());
-                intercepts[i] = (y - texcoords[i].y()) / slope + texcoords[i].x();
+
+                // todo: gpt said this bad
+                // double slope = (texcoords[i].y() - texcoords[j].y()) / (texcoords[i].x() - texcoords[j].x());
+                // intercepts[i] = (y - texcoords[i].y()) / slope + texcoords[i].x();
+
+                double t = (y - texcoords[i].y()) / (texcoords[j].y() - texcoords[i].y());
+                intercepts[i] = texcoords[i].x() + t * (texcoords[j].x() - texcoords[i].x());
             }
         }
 
