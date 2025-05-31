@@ -1291,6 +1291,8 @@ CMakeFiles/rendering.dir/src/window.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__random/weibull_distribution.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/renderer.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/obj3.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/Texture.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/../color.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/bitmap.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/rasterize.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/../camera.h

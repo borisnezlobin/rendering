@@ -11,6 +11,9 @@ class triangle {
 public:
     std::array<Point3d, 3> vertices;
     std::array<color, 3> colors;
+    std::array<Point2d, 3> uvs;
+    unsigned char * tex = nullptr;
+    int tex_width = 0;
 
     triangle(): colors{ black(), black(), black() } {};
 
@@ -25,21 +28,19 @@ public:
     {}
 
     triangle operator*(const Point3d & scale) const {
-        return {
-            Point3d(vertices[0][0] * scale[0], vertices[0][1] * scale[1], vertices[0][2] * scale[2]),
-            Point3d(vertices[1][0] * scale[0], vertices[1][1] * scale[1], vertices[1][2] * scale[2]),
-            Point3d(vertices[2][0] * scale[0], vertices[2][1] * scale[1], vertices[2][2] * scale[2]),
-            colors
-        };
+        triangle result(*this);
+        for (auto & vertex : result.vertices) {
+            vertex = Point3d(vertex.x() * scale.x(), vertex.y() * scale.y(), vertex.z() * scale.z());
+        }
+        return result;
     }
 
     triangle operator+(const Point3d & matrix) const {
-        return {
-            vertices[0] + matrix,
-            vertices[1] + matrix,
-            vertices[2] + matrix,
-            colors
-        };
+        triangle result(*this);
+        for (auto & vertex : result.vertices) {
+            vertex = vertex + matrix;
+        }
+        return result;
     }
 
     friend std::ostream& operator<<(std::ostream& os, const triangle& tri) {

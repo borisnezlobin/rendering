@@ -56,7 +56,7 @@ int main() {
         SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC,
         WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    obj3 cube = obj3::load_model("cube.obj");
+    obj3 cube = obj3::load_model("./cube-texture-blender/untitled.obj");
 
     bool running = true;
     int offsetX = 0, offsetY = 0;
@@ -79,6 +79,8 @@ int main() {
             });
         }
     }
+
+    std::clog << "scene object tex: " << (cube.tris.at(0).tex == nullptr) << "\n";
 
     Point3d cam_pos(0, 5, 0);
     double move_speed = 0.15;

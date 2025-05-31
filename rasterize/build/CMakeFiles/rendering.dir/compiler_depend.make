@@ -1037,11 +1037,14 @@ CMakeFiles/rendering.dir/src/geo/obj3.cpp.o: /Users/randomletters/CLionProjects/
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stdarg.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stdint.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/util/stb_image.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/color.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/interval.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/mathutil.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/tiny_obj_loader.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/util.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/color.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/util/Texture.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/obj3.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/triangle.h \
   /usr/local/include/Eigen/Cholesky \
@@ -2272,11 +2275,13 @@ CMakeFiles/rendering.dir/src/renderer.cpp.o: /Users/randomletters/CLionProjects/
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/stdint.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/bitmap.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/camera.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/color.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/interval.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/mathutil.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/tiny_obj_loader.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/util.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/color.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/util/Texture.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/coord.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/obj3.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/triangle.h \
@@ -4513,6 +4518,8 @@ CMakeFiles/rendering.dir/src/window.cpp.o: /Users/randomletters/CLionProjects/re
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/tiny_obj_loader.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/util/util.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/color.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/color.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/util/Texture.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/coord.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/obj3.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/triangle.h \
@@ -5050,9 +5057,13 @@ CMakeFiles/rendering.dir/src/window.cpp.o: /Users/randomletters/CLionProjects/re
 
 /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/triangle.h:
 
-/Users/randomletters/CLionProjects/rendering/rasterize/src/color.h:
+/Users/randomletters/CLionProjects/rendering/rasterize/src/util/Texture.h:
 
 /Users/randomletters/CLionProjects/rendering/rasterize/src/util/interval.h:
+
+/Users/randomletters/CLionProjects/rendering/rasterize/src/color.h:
+
+/Users/randomletters/CLionProjects/rendering/rasterize/src/util/stb_image.h:
 
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include/arm_neon.h:
 

@@ -36,6 +36,8 @@ public:
 
     void render_triangle(const triangle& tri);
 
+    void render_triangle(const triangle &tri, std::shared_ptr<Texture> texture);
+
     void write() {
         b.write();
     }

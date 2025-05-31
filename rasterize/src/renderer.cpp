@@ -108,6 +108,10 @@ void renderer::draw_line(coord start, coord end, double thickness, color c) {
 }
 
 void renderer::render_triangle(const triangle &tri) {
+    render_triangle(tri, nullptr);
+}
+
+void renderer::render_triangle(const triangle &tri, std::shared_ptr<Texture> texture) {
     // transform triangle to camera space
     Point3d vertices[3];
     Point2d texcoords[3];
@@ -216,9 +220,36 @@ void renderer::render_triangle(const triangle &tri) {
                 bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z()
             );
             double dot_prod = (cam.center() - world_coords).dot(triangle_center - world_coords);
+
+            Point2d uv = tri.uvs[0] * bary[0] +
+                         tri.uvs[1] * bary[1] +
+                         tri.uvs[2] * bary[2];
+
+            color col = red();
+            if (tri.tex != nullptr) {
+                // get color at tri.tex (1D array) using barycentric coordinates
+                double u = uv.x();
+                double v = uv.y();
+                int pixel_index = (v * tri.tex_width + u) * 3;
+                unsigned char r = tri.tex[pixel_index + 0];
+                unsigned char g = tri.tex[pixel_index + 1];
+                unsigned char b = tri.tex[pixel_index + 2];
+
+                col = color(
+                    r / 255.0,
+                    g / 255.0,
+                    b / 255.0
+                );
+
+                std::clog << "Texture color at (" << u << ", " << v << "): "
+                	     << "R: " << r << ", "
+                	     << "G: " << g << ", "
+                	     << "B: " << b << "\n";
+            }
+
             b.set_pixel_if_deep(
                 coord(x, y),
-                mix_colors(bary, tri.colors),
+                col,
                 bary[0] * vertices[0].z() + bary[1] * vertices[1].z() + bary[2] * vertices[2].z(),
                 dot_prod
             );

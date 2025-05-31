@@ -2,10 +2,10 @@ CMakeFiles/rendering.dir/src/renderer.cpp.o: \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/renderer.cpp \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/renderer.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/obj3.h \
-  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/triangle.h \
-  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../color.h \
-  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/.././util/interval.h \
-  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/.././util/util.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/Texture.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/../color.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/.././util/interval.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/.././util/util.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/utility \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__assert \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__assertion_handler \
@@ -1176,10 +1176,10 @@ CMakeFiles/rendering.dir/src/renderer.cpp.o: \
   /usr/local/include/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
   /usr/local/include/Eigen/src/Eigenvalues/./RealQZ.h \
   /usr/local/include/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/.././util/tiny_obj_loader.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/.././util/tiny_obj_loader.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/map \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__tree \
-  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/.././util/mathutil.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../util/.././util/mathutil.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/random \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__random/bernoulli_distribution.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__random/uniform_real_distribution.h \
@@ -1228,6 +1228,8 @@ CMakeFiles/rendering.dir/src/renderer.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__random/seed_seq.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__random/student_t_distribution.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__random/weibull_distribution.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/triangle.h \
+  /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/../color.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/bitmap.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/geo/coord.h \
   /Users/randomletters/CLionProjects/rendering/rasterize/src/camera.h \
