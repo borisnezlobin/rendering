@@ -38,8 +38,8 @@ obj3 obj3::load_model(std::string path) {
 				vertex.z() = attrib.vertices[3 * idx.vertex_index + 2];
 				// todo: apply orientation
 				tri.vertices[v] = vertex;
-				// tri.colors = { color::random(), color::random(), color::random() };
-				tri.colors = { red(), red(), red() };
+				tri.colors = { color::random(), color::random(), color::random() };
+				// tri.colors = { red(), red(), red() };
 			}
 			tris.push_back(tri);
 		}

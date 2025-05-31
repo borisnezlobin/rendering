@@ -130,8 +130,6 @@ void renderer::render_triangle(const triangle &tri) {
 
     if (!on_screen) return;
 
-    std::clog << "triangle: " << tri << " corresponds to " << texcoords[0] << ", " << texcoords[1] << texcoords[2] << std::endl;
-
     Point2d minc = Point2d(
         std::min(texcoords[0].x(), std::min(texcoords[1].x(), texcoords[2].x())),
         std::min(texcoords[0].y(), std::min(texcoords[1].y(), texcoords[2].y()))

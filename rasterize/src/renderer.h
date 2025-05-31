@@ -44,6 +44,10 @@ public:
         return b.export_bitmap();
     }
 
+    void clear() {
+        b.clear();
+    }
+
 private:
     camera& cam;
     int width;

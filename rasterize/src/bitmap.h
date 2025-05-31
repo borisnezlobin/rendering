@@ -93,6 +93,12 @@ public:
         return result;
     }
 
+    void clear() {
+        map = std::vector<color>(width * height, black());
+        depth_map = std::vector<double>(width * height, infinity);
+        dot_product_map = std::vector<double>(width * height, infinity);
+    }
+
 private:
     int width;
     int height;
