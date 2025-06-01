@@ -56,7 +56,8 @@ int main() {
         SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC,
         WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    obj3 cube = obj3::load_model("./cube-texture-blender/untitled.obj");
+    obj3 cube = obj3::load_model("./objects/swirlycube/untitled.obj");
+    obj3 plant = obj3::load_model("./objects/plant/indoor plant_02.obj");
 
     bool running = true;
     int offsetX = 0, offsetY = 0;
@@ -80,10 +81,8 @@ int main() {
         }
     }
 
-    std::clog << "scene object tex: " << (cube.tris.at(0).tex == nullptr) << "\n";
-
     Point3d cam_pos(0, 5, 0);
-    double move_speed = 0.15;
+    double move_speed = 0.5;
 
     // Track which keys are held
     bool moving_forward = false;
@@ -154,6 +153,9 @@ int main() {
         for (const auto& obj : scene_objects) {
             r.render_obj(cube, obj.position, obj.rotation, obj.scale);
         }
+
+        // draw a plant
+        r.render_obj(plant, Point3d(0, 0, 30), Quaterniond(1, 0, 0, 0), Point3d(1, 1, 1));
 
 
         std::vector<uint32_t> bitmap = r.export_bitmap();

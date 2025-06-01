@@ -90,7 +90,6 @@ obj3 obj3::load_model(std::string path) {
 				// 	tri.colors[v] = color(r / 255.0, g / 255.0, b / 255.0);
 				// }
 			}
-			std::clog << tex_data << "\n";std::clog << "Texture pointer: '" << static_cast<void*>(tex_data) << "'. width: " << tex_width << ". height: " << tex_height << "\n";
 
 			if (tex_data != nullptr) {
 				tri.tex = tex_data;
